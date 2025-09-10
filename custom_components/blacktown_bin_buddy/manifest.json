@@ -1,0 +1,17 @@
+{
+  "domain": "blacktown_bin_buddy",
+  "name": "Blacktown Bin Buddy",
+  "codeowners": [
+    "@raicovx"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/blacktown_council",
+  "homekit": {},
+  "iot_class": "cloud_polling",
+  "quality_scale": "bronze",
+  "requirements": ["beautifulsoup4==4.12.3"],
+  "ssdp": [],
+  "zeroconf": [],
+  "version": "1.0.0"
+}
