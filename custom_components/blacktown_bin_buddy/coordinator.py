@@ -29,7 +29,7 @@ class BinBuddyCoordinator(DataUpdateCoordinator[dict[str, date]]):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(hours=24),  # Check for new dates once a day
+            update_interval=timedelta(hours=12),  # Check for new dates twice a day to ensure new dates are captured in the morning
             config_entry=entry,
         )
 
