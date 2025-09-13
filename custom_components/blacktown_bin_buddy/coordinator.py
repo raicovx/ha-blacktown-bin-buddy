@@ -30,14 +30,9 @@ class BinBuddyCoordinator(DataUpdateCoordinator[dict[str, date]]):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_method=self._async_update_data,
+            update_interval=timedelta(days=1),
             config_entry=entry,
-        )
-
-        # Refresh at 1 AM every day
-        async_track_time_pattern(
-            hass, self.async_request_refresh, hour=1, minute=0, second=0
-        )
+        )  
 
     async def _async_update_data(self) -> dict[str, date]:
         """Fetch the latest waste collection dates from the service."""
