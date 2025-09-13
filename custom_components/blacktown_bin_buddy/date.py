@@ -91,11 +91,6 @@ class BinBuddyDateEntity(CoordinatorEntity[BinBuddyCoordinator], DateEntity):
         }
 
     @property
-    def entity_picture(self) -> str | None:
-        """Return the entity picture."""
-        return f"/local/{DOMAIN}/{self.entity_description.key}.svg"
-
-    @property
     def native_value(self) -> date | None:
         """Return the next collection date."""
         return self.entity_description.value_fn(self.coordinator.data)
