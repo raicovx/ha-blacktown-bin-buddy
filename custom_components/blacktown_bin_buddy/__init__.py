@@ -30,7 +30,7 @@ async def async_setup_entry(
 
     entry.runtime_data = coordinator
 
-     @callback
+    @callback
     def _async_update_at_one_am(now):
         """Request a refresh of the coordinator at 1:00 AM."""
         hass.async_create_task(coordinator.async_request_refresh())
