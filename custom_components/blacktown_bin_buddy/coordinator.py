@@ -8,6 +8,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.event import async_track_time_pattern
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -29,8 +30,13 @@ class BinBuddyCoordinator(DataUpdateCoordinator[dict[str, date]]):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(hours=12),  # Check for new dates twice a day to ensure new dates are captured in the morning
+            update_method=self._async_update_data,
             config_entry=entry,
+        )
+
+        # Refresh at 1 AM every day
+        async_track_time_pattern(
+            hass, self.async_request_refresh, hour=1, minute=0, second=0
         )
 
     async def _async_update_data(self) -> dict[str, date]:

@@ -34,19 +34,27 @@ def mock_config_entry():
     return MockConfigEntry(MOCK_ENTRY_DATA)
 
 
+@patch("custom_components.blacktown_bin_buddy.coordinator.async_track_time_pattern")
 @patch("custom_components.blacktown_bin_buddy.coordinator.async_get_clientsession")
-async def test_coordinator_initialization(mock_get_session, mock_hass, mock_config_entry):
-    """Test coordinator initialization."""
+async def test_coordinator_initialization(
+    mock_get_session, mock_track_time, mock_hass, mock_config_entry
+):
+    """Test coordinator initialization and daily refresh scheduling."""
     coordinator = BinBuddyCoordinator(mock_hass, mock_config_entry)
     assert coordinator.geolocation_id == "test-geo-id"
-    assert coordinator.update_interval == timedelta(hours=24)
     mock_get_session.assert_called_once_with(mock_hass)
 
+    # Verify that the daily refresh is scheduled for 1 AM
+    mock_track_time.assert_called_once()
+    assert mock_track_time.call_args[1]["hour"] == 1
+    assert mock_track_time.call_args[1]["minute"] == 0
+    assert mock_track_time.call_args[1]["second"] == 0
 
+@patch("custom_components.blacktown_bin_buddy.coordinator.async_track_time_pattern")
 @patch("custom_components.blacktown_bin_buddy.coordinator.CouncilService")
 @patch("custom_components.blacktown_bin_buddy.coordinator.async_get_clientsession")
 async def test_async_update_data_success(
-    mock_get_session, mock_service_class, mock_hass, mock_config_entry
+    mock_get_session, mock_service_class, mock_track_time, mock_hass, mock_config_entry
 ):
     """Test successful data update."""
     mock_service_instance = mock_service_class.return_value
@@ -63,10 +71,12 @@ async def test_async_update_data_success(
     )
 
 
+
+@patch("custom_components.blacktown_bin_buddy.coordinator.async_track_time_pattern")
 @patch("custom_components.blacktown_bin_buddy.coordinator.CouncilService")
 @patch("custom_components.blacktown_bin_buddy.coordinator.async_get_clientsession")
 async def test_async_update_data_failure(
-    mock_get_session, mock_service_class, mock_hass, mock_config_entry
+    mock_get_session, mock_service_class, mock_track_time, mock_hass, mock_config_entry
 ):
     """Test data update failure due to CannotConnect."""
     mock_service_instance = mock_service_class.return_value
