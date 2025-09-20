@@ -26,11 +26,7 @@ class BinBuddyCoordinator(DataUpdateCoordinator[dict[str, date]]):
         self.geolocation_id = entry.data["id"]
 
         super().__init__(
-            hass,
-            _LOGGER,
-            name=DOMAIN,
-            update_interval=timedelta(days=1),
-            config_entry=entry,
+            hass, _LOGGER, name=DOMAIN, config_entry=entry, always_update=False
         )  
 
     async def _async_update_data(self) -> dict[str, date]:

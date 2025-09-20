@@ -30,8 +30,7 @@ class CouncilService:
         self._session = session
 
     async def search_address(self, search_term: str) -> list[dict[str, Any]]:
-        """
-        Search for an address and return a list of matching suggestions.
+        """Search for an address and return a list of matching suggestions.
 
         Args:
             search_term: The address to search for.
@@ -58,8 +57,7 @@ class CouncilService:
             raise CouncilServiceError from err
 
     async def get_waste_collection_data(self, geolocation_id: str) -> dict[str, date]:
-        """
-        Fetch and parse waste collection dates for a given geolocation ID.
+        """Fetch and parse waste collection dates for a given geolocation ID.
 
         Args:
             geolocation_id: The unique identifier for the address.
@@ -86,8 +84,7 @@ class CouncilService:
             raise CouncilServiceError from err
 
     def _parse_waste_dates_html(self, html_content: str) -> dict[str, date]:
-        """
-        Parse the HTML content to extract waste collection dates.
+        """Parse the HTML content to extract waste collection dates.
 
         Note: This parser is based on the observed HTML structure of the council's
         website. If the website layout changes, this function will need to be updated.

@@ -1,5 +1,5 @@
 {
   "name": "Blacktown Bin Buddy",
-  "render_readme": false,
+  "render_readme": true,
   "homeassistant": "2024.8.0"
 }
